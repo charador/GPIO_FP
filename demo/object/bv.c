@@ -375,7 +375,7 @@ bool Binary_Value_Write_Property(
                     if (level == 1)
                         digitalWrite(23, HIGH);
                     else
-                        digitalRead(23, LOW);
+                        digitalWrite(23, LOW);
                     /* Note: you could set the physical output here if we
                        are the highest priority.
                        However, if Out of Service is TRUE, then don't set the
