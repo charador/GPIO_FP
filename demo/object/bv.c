@@ -166,6 +166,7 @@ BACNET_BINARY_PV Binary_Value_Present_Value(
     if (index < MAX_BINARY_VALUES) {
         for (i = 0; i < BACNET_MAX_PRIORITY; i++) {
             if (Binary_Value_Level[index][i] != BINARY_NULL) {
+                pinMode(23, INPUT); 
                 value = (BACNET_BINARY_PV)digitalRead(23);
                 break;
             }
@@ -356,6 +357,7 @@ bool Binary_Value_Write_Property(
         wp_data->error_code = ERROR_CODE_PROPERTY_IS_NOT_AN_ARRAY;
         return false;
     }
+    pinMode(23, OUTPUT); 
     switch (wp_data->object_property) {
         case PROP_PRESENT_VALUE:
             if (value.tag == BACNET_APPLICATION_TAG_ENUMERATED) {
@@ -405,6 +407,10 @@ bool Binary_Value_Write_Property(
                     if (priority && (priority <= BACNET_MAX_PRIORITY)) {
                         priority--;
                         Binary_Value_Level[object_index][priority] = level;
+                    if (level == 1)
+                        digitalWrite(23, HIGH);
+                    else
+                        digitalWrite(23, LOW);
                         /* Note: you could set the physical output here to the next
                            highest priority, or to the relinquish default if no
                            priorities are set.
